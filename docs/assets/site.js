@@ -1,6 +1,4 @@
-// Store links. Fill each one in once that store has approved the extension.
-// Until then, that store's button reads "Coming soon" and can't be clicked,
-// and its install steps are replaced by a "Coming soon" line.
+// See PUBLISHING.md for store publication and when to add each link.
 const STORE_LINKS = {
   chrome: 'https://chromewebstore.google.com/detail/scroll-free-for-reddit/lcfflgjbnlnopeiflekfggclpnocojpo',
   safari: '',
