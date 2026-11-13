@@ -1,0 +1,376 @@
+:root {
+  --cobalt: #2340e8;
+  --cobalt-deep: #1a32c4;
+  --sun: #ffd23f;
+  --ink: #121a3a;
+  --ink-soft: #4a5378;
+  --paper: #f7f8fc;
+  --mist: #dce2f7;
+  --surface: #ffffff;
+  --button-text: #ffffff;
+  --display: "Bricolage Grotesque", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cobalt: #6f86ff;
+    --cobalt-deep: #8a9cff;
+    --ink: #eef1ff;
+    --ink-soft: #b7bfe0;
+    --paper: #0f1430;
+    --mist: #2a3363;
+    --surface: #182045;
+    --button-text: #0f1430;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 18px/1.6 var(--body);
+}
+
+a {
+  color: var(--cobalt);
+  text-underline-offset: 0.18em;
+}
+
+a:focus-visible,
+.button:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(42px, 7vw, 76px);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(30px, 4.4vw, 44px);
+  font-weight: 800;
+}
+
+h3 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+.wrap {
+  width: min(1120px, 100% - 32px);
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  padding: 24px 0;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.brand img {
+  width: 40px;
+  height: 40px;
+}
+
+/* ---------- Home: hero ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+  align-items: center;
+  gap: 40px;
+  padding: 32px 0 72px;
+}
+
+.hero .copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.lede {
+  font-size: 21px;
+  color: var(--ink-soft);
+  max-width: 34ch;
+}
+
+.hero img.illustration {
+  width: 100%;
+  height: auto;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-top: 8px;
+}
+
+.button {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 60px;
+  padding: 10px 26px;
+  border-radius: 16px;
+  background: var(--cobalt);
+  color: var(--button-text);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.button:hover {
+  background: var(--cobalt-deep);
+}
+
+.button small {
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.button.secondary {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--mist);
+}
+
+.button.secondary:hover {
+  box-shadow: inset 0 0 0 2px var(--cobalt);
+}
+
+.button[aria-disabled="true"] {
+  pointer-events: none;
+  background: var(--mist);
+  color: var(--ink-soft);
+  box-shadow: none;
+}
+
+.facts {
+  font-weight: 700;
+  color: var(--cobalt);
+}
+
+/* ---------- Home: install ---------- */
+
+.install {
+  padding: 64px 0;
+  border-top: 1px solid var(--mist);
+}
+
+.install > h2 {
+  margin-bottom: 36px;
+}
+
+.browsers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+}
+
+.browsers section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.browsers .note {
+  color: var(--ink-soft);
+  font-size: 16px;
+}
+
+ol.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+ol.steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+ol.steps li::before {
+  content: counter(step);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--sun);
+  color: #121a3a;
+  font-family: var(--display);
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- Home: safety ---------- */
+
+.safety {
+  padding: 64px 0 80px;
+  border-top: 1px solid var(--mist);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+}
+
+ul.checks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 20px;
+}
+
+ul.checks li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+}
+
+ul.checks li::before {
+  content: "";
+  width: 28px;
+  height: 28px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--cobalt)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M8 14.5 L12.5 19 L20.5 10' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 28px no-repeat;
+}
+
+/* ---------- Text pages (privacy, support) ---------- */
+
+.doc {
+  max-width: 68ch;
+  padding: 24px 0 80px;
+}
+
+.doc h1 {
+  font-size: clamp(36px, 6vw, 56px);
+  margin-bottom: 12px;
+}
+
+.doc .updated {
+  color: var(--ink-soft);
+  margin-bottom: 40px;
+}
+
+.doc h2 {
+  font-size: 26px;
+  margin: 40px 0 12px;
+}
+
+.doc p + p,
+.doc p + ul,
+.doc ul + p {
+  margin-top: 14px;
+}
+
+.doc ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.doc li + li {
+  margin-top: 6px;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--mist);
+  padding: 28px 0 40px;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 32px;
+}
+
+.site-footer nav {
+  display: flex;
+  gap: 24px;
+}
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 860px) {
+  .hero,
+  .browsers,
+  .safety {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero {
+    gap: 8px;
+    padding-top: 8px;
+  }
+
+  .hero img.illustration {
+    max-width: 480px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Marquee promo tile</title>
+  <link rel="stylesheet" href="store.css">
+  <script src="mock.js"></script>
+  <style>
+    body { width: 1400px; height: 560px; background: var(--cobalt); color: var(--white); position: relative; }
+    .copy { position: absolute; left: 90px; top: 0; bottom: 0; width: 620px; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+    h1 { font-size: 70px; }
+    .facts { font-size: 22px; font-weight: 700; color: var(--sun); }
+    .stage { position: absolute; left: 820px; top: 70px; width: 500px; }
+    .stage .window { height: 560px; }
+  </style>
+</head>
+<body class="on-cobalt">
+  <div class="copy">
+    <div class="brand"><img src="../app-icon-1024.png" alt="">Scroll Free for Reddit</div>
+    <h1>Read Reddit without the signup box.</h1>
+    <p class="facts">Free. No account. Nothing to set up.</p>
+  </div>
+  <div class="stage"><div id="win"></div></div>
+  <script>document.getElementById('win').innerHTML = Mock.browserWindow({ posts: 4 });</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Feed keeps loading</title>
+  <link rel="stylesheet" href="store.css">
+  <script src="mock.js"></script>
+  <style>
+    body { width: 1280px; height: 800px; position: relative; }
+    .copy { position: absolute; left: 80px; top: 120px; width: 480px; display: flex; flex-direction: column; gap: 26px; }
+    h2 { font-size: 64px; }
+    .lede { font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 30ch; }
+    .stage { position: absolute; left: 640px; top: -30px; width: 560px; }
+    .stage .window { height: 900px; }
+    .stage .chrome { display: none; }
+    .stop-line { display: flex; align-items: center; gap: 12px; margin: 2px -28px; padding: 10px 28px; background: #fff7d6; border-top: 3px dashed var(--sun); border-bottom: 3px dashed var(--sun); font-weight: 700; font-size: 18px; color: var(--ink); }
+    .stop-line svg { flex: none; }
+  </style>
+</head>
+<body>
+  <div class="copy">
+    <h2>Your feed keeps loading.</h2>
+    <p class="lede">Without an account, Reddit stops after 3 posts. Scroll Free brings in the next ones as you scroll, for as long as you like.</p>
+  </div>
+  <div class="stage"><div id="win"></div></div>
+  <script>
+    const holder = document.getElementById('win');
+    holder.innerHTML = Mock.browserWindow({ posts: 0 });
+    const page = holder.querySelector('.page');
+    const P = Mock.PATTERN;
+    const posts = (from, n) => Array.from({ length: n }, (_, k) => Mock.post(from + k, P[(from + k) % P.length])).join('');
+    page.innerHTML = posts(0, 3) +
+      `<div class="stop-line">
+         <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#1a32c4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6 L13 13 L21 6"/><path d="M5 14 L13 21 L21 14"/></svg>
+         Reddit stops here. Scroll Free keeps going.
+       </div>` + posts(3, 4);
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+name: Something isn't working
+description: Tell us what went wrong with Scroll Free for Reddit.
+title: "Problem: "
+labels: ["problem"]
+body:
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Which browser are you using?
+      options:
+        - Chrome
+        - Microsoft Edge
+        - Brave
+        - Arc
+        - Safari
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: For example, "the signup box still appears" or "the feed stops after a few posts".
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Which Reddit page? (optional)
+      description: Copy the address from the browser's address bar.
+      placeholder: https://www.reddit.com/r/...

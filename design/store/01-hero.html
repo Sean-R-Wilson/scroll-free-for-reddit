@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hero</title>
+  <link rel="stylesheet" href="store.css">
+  <script src="mock.js"></script>
+  <style>
+    body { width: 1280px; height: 800px; position: relative; }
+    .copy { position: absolute; left: 80px; top: 84px; width: 520px; display: flex; flex-direction: column; gap: 28px; }
+    h1 { font-size: 76px; }
+    .lede { font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 30ch; }
+    .facts { font-size: 20px; font-weight: 700; color: var(--cobalt); }
+    .stage { position: absolute; left: 650px; top: 150px; width: 560px; }
+    .stage .window { height: 720px; }
+    /* The removed signup box, tossed up and away from the page */
+    .tossed { position: absolute; z-index: 3; width: 300px; right: -40px; top: -108px; transform: rotate(11deg); }
+    .tossed .signup-box { position: static; width: 100%; transform: none; }
+    .trail { position: absolute; z-index: 2; right: 214px; top: 64px; width: 150px; height: 90px; }
+  </style>
+</head>
+<body>
+  <div class="copy">
+    <div class="brand"><img src="../../extension/icons/icon-256.png" alt="">Scroll Free for Reddit</div>
+    <h1>Read Reddit without the signup box.</h1>
+    <p class="lede">Reddit greys out the page and stops you scrolling unless you sign up. Scroll Free removes that box and keeps your feed loading.</p>
+    <p class="facts">Free. No account. Nothing to set up.</p>
+  </div>
+  <div class="stage">
+    <div id="win"></div>
+    <svg class="trail" viewBox="0 0 150 90" fill="none" stroke="#ffd23f" stroke-width="8" stroke-linecap="round">
+      <path d="M8 82 C 40 60, 70 46, 112 28" stroke-dasharray="2 18"/>
+      <path d="M96 12 L 132 22 L 110 52" stroke-linejoin="round"/>
+    </svg>
+    <div class="tossed">
+      <div class="signup-box">
+        <div class="badge"></div>
+        <b style="width:78%"></b><b style="width:56%"></b>
+        <div class="pill" style="margin-top:8px"></div>
+        <div class="pill light"></div>
+      </div>
+    </div>
+  </div>
+  <script>document.getElementById('win').innerHTML = Mock.browserWindow({ posts: 5 });</script>
+</body>
+</html>

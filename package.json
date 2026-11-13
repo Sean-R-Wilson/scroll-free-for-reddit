@@ -1,0 +1,18 @@
+{
+  "name": "scroll-free-for-reddit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser extension that removes Reddit's logged-out signup box and keeps the feed loading.",
+  "type": "module",
+  "scripts": {
+    "assets": "node scripts/render-assets.mjs",
+    "check": "node scripts/check.mjs",
+    "package:chrome": "node scripts/package-chrome.mjs",
+    "test:chrome": "node tests/e2e-chrome.mjs extension",
+    "test:webkit": "node tests/e2e-webkit.mjs extension/content.js",
+    "test": "npm run check && npm run test:chrome && npm run test:webkit"
+  },
+  "devDependencies": {
+    "playwright": "1.65.0"
+  }
+}

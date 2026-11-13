@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scroll Free for Reddit</title>
+  <meta name="description" content="A free browser extension that removes the signup box that greys out Reddit and freezes the page, and keeps your feed loading.">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="./"><img src="assets/icon.svg" alt="">Scroll Free for Reddit</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <div class="copy">
+        <h1>Read Reddit without the signup box.</h1>
+        <p class="lede">Reddit greys out the page and stops you scrolling unless you sign up. Scroll Free removes that box and keeps your feed loading.</p>
+        <div class="actions">
+          <a class="button" data-store="chrome" href="#install">Add to Chrome<small>Chrome Web Store</small></a>
+          <a class="button secondary" data-store="safari" href="#install">Get it for Safari<small>Mac App Store</small></a>
+        </div>
+        <p class="facts">Free. No account. Nothing to set up.</p>
+      </div>
+      <img class="illustration" src="assets/hero.png" width="700" height="720" alt="A Reddit feed with the signup box thrown off the page.">
+    </div>
+
+    <section class="wrap install" id="install">
+      <h2>Installing takes a minute</h2>
+      <div class="browsers">
+        <section>
+          <h3>Chrome</h3>
+          <p class="note" data-store-soon="chrome" hidden>Coming soon to the Chrome Web Store.</p>
+          <ol class="steps" data-store-steps="chrome">
+            <li><span>Click <strong>Add to Chrome</strong> at the top of this page, then <strong>Add to Chrome</strong> again on the store page.</span></li>
+            <li><span>Chrome asks you to confirm. Click <strong>Add extension</strong>.</span></li>
+          </ol>
+          <p class="note" data-store-steps="chrome">That's it. The same button works in Microsoft Edge, Brave and Arc. Edge first asks once to allow extensions from other stores: click <strong>Allow</strong>.</p>
+        </section>
+        <section>
+          <h3>Safari on a Mac</h3>
+          <p class="note" data-store-soon="safari" hidden>Coming soon to the Mac App Store.</p>
+          <ol class="steps" data-store-steps="safari">
+            <li><span>Click <strong>Get it for Safari</strong>, then <strong>Get</strong> in the App Store.</span></li>
+            <li><span>Open <strong>Scroll Free for Reddit</strong> from your Applications folder and click <strong>Open Safari Settings</strong>.</span></li>
+            <li><span>Tick the box next to <strong>Scroll Free for Reddit</strong>.</span></li>
+            <li><span>Go to reddit.com, click the <strong>Scroll Free</strong> button in Safari's toolbar, and choose <strong>Always Allow on This Website</strong>.</span></li>
+          </ol>
+        </section>
+      </div>
+    </section>
+
+    <section class="wrap safety">
+      <h2>It only touches Reddit, and it keeps nothing.</h2>
+      <ul class="checks">
+        <li>Runs only on reddit.com</li>
+        <li>Collects no data and sends nothing anywhere</li>
+        <li>No account, no settings, nothing to sign up for</li>
+        <li><span>Open code that anyone can <a href="https://github.com/Sean-R-Wilson/scroll-free-for-reddit">check on GitHub</a></span></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Made by Wilson Technologies. Not made by or connected to Reddit, Inc.</p>
+      <nav><a href="privacy.html">Privacy</a><a href="support.html">Support</a></nav>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Website hero illustration</title>
+  <link rel="stylesheet" href="store.css">
+  <script src="mock.js"></script>
+  <style>
+    /* Rendered with a transparent background for the website's home page. */
+    html, body { background: transparent; }
+    body { width: 700px; height: 720px; position: relative; }
+    .stage { position: absolute; left: 40px; top: 130px; width: 520px; }
+    .stage .window { height: 480px; }
+    .tossed { position: absolute; z-index: 3; width: 270px; right: -70px; top: -104px; transform: rotate(11deg); }
+    .tossed .signup-box { position: static; width: 100%; transform: none; }
+    .trail { position: absolute; z-index: 2; right: 170px; top: 50px; width: 150px; height: 90px; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div id="win"></div>
+    <svg class="trail" viewBox="0 0 150 90" fill="none" stroke="#ffd23f" stroke-width="8" stroke-linecap="round">
+      <path d="M8 82 C 40 60, 70 46, 112 28" stroke-dasharray="2 18"/>
+    </svg>
+    <div class="tossed">
+      <div class="signup-box">
+        <div class="badge"></div>
+        <b style="width:78%"></b><b style="width:56%"></b>
+        <div class="pill" style="margin-top:8px"></div>
+        <div class="pill light"></div>
+      </div>
+    </div>
+  </div>
+  <script>document.getElementById('win').innerHTML = Mock.browserWindow({ posts: 3 });</script>
+</body>
+</html>
