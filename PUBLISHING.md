@@ -12,6 +12,8 @@ The website's install buttons read "Coming soon" until each store's link is adde
 
 ## Chrome Web Store (also covers Edge, Brave and Arc)
 
+Submitted for review on 13 November 2026. Item ID `lcfflgjbnlnopeiflekfggclpnocojpo`; once approved, the listing is at https://chromewebstore.google.com/detail/scroll-free-for-reddit/lcfflgjbnlnopeiflekfggclpnocojpo
+
 1. **You:** go to https://chrome.google.com/webstore/devconsole and sign in with the Google account that should own the listing. Pay the one-time US$5 registration fee, set the publisher name to **Wilson Technologies**, and verify the contact email.
 2. **You:** click **New item** and upload `dist/scroll-free-for-reddit-1.0.0.zip` from this folder.
 3. **You:** fill in each tab by pasting from `store/chrome-web-store.md`. It lists every field in order, including which image files to upload.

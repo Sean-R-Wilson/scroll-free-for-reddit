@@ -2,7 +2,7 @@
 // Until then, that store's button reads "Coming soon" and can't be clicked,
 // and its install steps are replaced by a "Coming soon" line.
 const STORE_LINKS = {
-  chrome: '',
+  chrome: 'https://chromewebstore.google.com/detail/scroll-free-for-reddit/lcfflgjbnlnopeiflekfggclpnocojpo',
   safari: '',
 };
 
