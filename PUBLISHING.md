@@ -12,12 +12,16 @@ The website's install buttons read "Coming soon" until each store's link is adde
 
 ## Chrome Web Store (also covers Edge, Brave and Arc)
 
+Submitted for review on 13 November 2026. Item ID `lcfflgjbnlnopeiflekfggclpnocojpo`; listing URL: https://chromewebstore.google.com/detail/scroll-free-for-reddit/lcfflgjbnlnopeiflekfggclpnocojpo
+
+The website's **Add to Chrome** button already links to this URL. Until approval, Google shows an empty placeholder page.
+
 1. **You:** go to https://chrome.google.com/webstore/devconsole and sign in with the Google account that should own the listing. Pay the one-time US$5 registration fee, set the publisher name to **Wilson Technologies**, and verify the contact email.
 2. **You:** click **New item** and upload `dist/scroll-free-for-reddit-1.0.0.zip` from this folder.
 3. **You:** fill in each tab by pasting from `store/chrome-web-store.md`. It lists every field in order, including which image files to upload.
 4. **You:** answer the EU "trader" question, which is your call. Declaring yourself a trader means the store publicly shows a business address, phone number and email to people in the EU. Declaring non-trader shows none of that, but states that publishing it isn't part of a business. Since this is free and published by Wilson Technologies, either can be argued.
 5. **You:** click **Submit for review**. Google usually reviews within a few days and emails the result.
-6. **Claude:** once it's approved, adds the store link to the website's **Add to Chrome** button.
+6. **Claude:** once it's approved, checks that the listing is public and the website's **Add to Chrome** button opens it.
 
 ## Mac App Store (Safari), later
 

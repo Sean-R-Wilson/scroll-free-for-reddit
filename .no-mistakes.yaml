@@ -1,0 +1,39 @@
+# no-mistakes gate config. The daemon reads it from main, so a change here takes
+# effect once merged.
+
+# This repository has no cloud CI by design: every check runs locally in the
+# pipeline (README.md, "Commands"). Without this the CI step would wait for checks
+# that never register.
+no_ci: true
+
+commands:
+  # Run worktrees start with tracked files only, so install dependencies first.
+  # Playwright's browsers come from the machine's shared cache.
+  prepare: "npm ci --prefer-offline"
+  # Store rules (manifest limits, icons present, reddit.com-only access, no
+  # leftover _TBD placeholders), then the website check (every page fits desktop
+  # and phone widths without sideways scrolling).
+  lint: "npm run check -- --release && node scripts/screenshot-site.mjs"
+
+test:
+  instructions: |
+    Choose checks by what the change touches. Every browser here is Playwright's
+    own Chromium or WebKit from the shared cache.
+
+    extension/ (what runs on Reddit): run `npm run test:chrome` and
+    `npm run test:webkit`. They load live reddit.com while logged out, take about
+    five minutes each, and need internet. Reddit sometimes shows automated
+    browsers a "Prove your humanity" page; the tests wait and retry, and a SKIP
+    line means the bot check never cleared, which is not a pass.
+
+    docs/ (the public website): open the changed pages from disk in Playwright
+    Chromium and check the changed behaviour as a visitor would, including the
+    install buttons and steps driven by docs/assets/site.js. Run
+    `node scripts/screenshot-site.mjs` and look at the screenshots it writes to
+    tests/screenshots/.
+
+    design/, scripts/icon.mjs or scripts/render-assets.mjs (images): run
+    `npm run assets` and look at the regenerated images.
+
+    store/ text only: check it against the extension's real behaviour and the
+    store field limits in the files themselves.

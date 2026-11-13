@@ -28,3 +28,4 @@ for (const name of ['index', 'privacy', 'support']) {
 }
 await browser.close();
 console.log(problems.length ? problems.join('\n') : 'no sideways scrolling at any width');
+if (problems.length) process.exitCode = 1;

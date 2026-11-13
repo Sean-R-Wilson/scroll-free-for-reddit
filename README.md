@@ -26,7 +26,9 @@ Run `npm install` once first.
 - `npm run package:chrome`: builds the Chrome Web Store upload file in `dist/`
 - `npm run assets`: redraws the icons, store images and website illustration
 - `npm test`: runs the check, then the Chrome and WebKit end-to-end tests (about 10 minutes, needs internet)
-- `node scripts/screenshot-site.mjs`: photographs the website at desktop and phone sizes into `tests/screenshots/`
+- `node scripts/screenshot-site.mjs`: photographs the website at desktop and phone sizes into `tests/screenshots/` and fails if a page needs sideways scrolling
+
+Changes reach `main` through pull requests validated by the no-mistakes gate. `.no-mistakes.yaml` sets which local checks it runs; there is no cloud CI.
 
 The end-to-end tests use Playwright's own Chromium and WebKit browsers. Reddit sometimes shows automated browsers a "Prove your humanity" check. The tests wait and retry when that happens.
 
