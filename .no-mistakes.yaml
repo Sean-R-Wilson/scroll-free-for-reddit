@@ -37,6 +37,3 @@ test:
 
     store/ text only: check it against the extension's real behaviour and the
     store field limits in the files themselves.
-
-ignore_patterns:
-  - "package-lock.json"
