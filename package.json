@@ -1,6 +1,6 @@
 {
   "name": "scroll-free-for-reddit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Browser extension that removes Reddit's logged-out signup box and keeps the feed loading.",
   "type": "module",

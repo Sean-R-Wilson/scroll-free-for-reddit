@@ -36,3 +36,9 @@ Safari extensions have to be built into a small Mac app with Xcode, Apple's app-
 ## When Reddit changes its page
 
 Reddit changes its site from time to time. If the box comes back, the fix is a small change here, then a new version uploaded to each store, which reviews it again (usually faster than the first time). The automated tests (`npm test`) show whether the current version still works on the live site.
+
+To send a new version to the Chrome Web Store:
+
+1. **Claude:** raises the version number in `extension/manifest.json` and `package.json` (the store only accepts a higher number than the one it has), runs the tests, and builds `dist/scroll-free-for-reddit-<version>.zip` with `npm run package:chrome`.
+2. **You:** in the developer dashboard (https://chrome.google.com/webstore/devconsole), open Scroll Free for Reddit, choose **Package** on the left, click **Upload new package** and pick that zip. Then click **Submit for review**. The listing text and images carry over, so nothing else needs filling in.
+3. Once Google approves it, Chrome installs the new version for everyone who already has the extension, usually within a few hours.

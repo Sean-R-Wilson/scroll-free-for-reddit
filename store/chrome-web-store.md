@@ -4,7 +4,7 @@ Everything to paste into the Chrome Web Store developer dashboard, field by fiel
 
 ## Package
 
-Upload `dist/scroll-free-for-reddit-1.0.0.zip`. The name, short description and icon come from the zip automatically.
+Upload `dist/scroll-free-for-reddit-1.1.0.zip`. The name, short description and icon come from the zip automatically.
 
 ## Store listing tab
 

@@ -16,7 +16,7 @@ To publish it to the stores, see [PUBLISHING.md](PUBLISHING.md).
 - `store/`: listing text for each store, and the screenshots and promo images to upload
 - `design/`: sources for the store images and website illustration
 - `scripts/`: building, checking and image rendering
-- `tests/`: end-to-end tests that load live reddit.com, logged out, in Chrome and WebKit (Safari's engine)
+- `tests/`: end-to-end tests that load live reddit.com, logged out, in Chrome and WebKit (Safari's engine), including Reddit's phone layout as an iPhone sees it
 
 ## Commands
 
@@ -35,6 +35,8 @@ The end-to-end tests use Playwright's own Chromium and WebKit browsers. Reddit s
 ## How it works
 
 Reddit adds an element called `desktop-dynamic-upsell-modal` that opens the box and adds the class `rpl-scroll-lock` to the page to stop scrolling. The extension removes that element as soon as it appears, with CSS as a backup in case it ever opens.
+
+Phones get Reddit's phone layout instead, with a "Get the best of Reddit in the app" sheet that fades out the page and freezes scrolling the same way. It arrives as a `configured-xpromo-modal` element whose tracking data names its `max_login` prompt. The extension removes that element, which also closes the sheet if it has already opened. Reddit uses the same element for its other app prompts, so only the login prompt on ordinary pages is removed; prompts on adult-content pages are left alone. This is what makes the extension work in the Orion browser on iPhone, which installs extensions from the Chrome Web Store. Chrome on iPhone can't run extensions at all, and Safari on iPhone would need an App Store version of the extension.
 
 For logged-out visitors, Reddit also leaves out the marker at the end of the feed that tells it where to fetch the next posts (`faceplate-partial slot="load-after"`). When you scroll near the end of a feed, the extension adds that marker back, pointing after the last post, and Reddit's own code loads the next batch.
 

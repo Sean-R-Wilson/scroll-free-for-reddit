@@ -1,7 +1,7 @@
 // End-to-end check of the Chrome extension on live reddit.com, logged out.
 // Usage: node tests/e2e-webkit.mjs [content script, default extension/content.js] [none]
 //   pass "none" as the second argument to run the same checks without the extension.
-import { webkit } from 'playwright';
+import { webkit, devices } from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -48,12 +48,12 @@ const snapshot = () =>
     };
   });
 
-async function open(url) {
+async function open(url, p = page) {
   for (let attempt = 1; attempt <= 3; attempt++) {
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-    if (!(await page.getByText('Prove your humanity').count())) return true;
+    await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    if (!(await p.getByText('Prove your humanity').count())) return true;
     console.log(`  bot check on ${url} (attempt ${attempt}), waiting and retrying`);
-    await page.waitForTimeout(20000);
+    await p.waitForTimeout(20000);
   }
   return false;
 }
@@ -160,6 +160,73 @@ if (await open('https://www.reddit.com/r/AskReddit/')) {
     .catch(() => false);
   await page.screenshot({ path: `${shotDir}/${tag}-login.png` });
   check('Log In button still opens the login box', loginShown && loginVisible, `visible=${loginVisible}`);
+}
+
+// Reddit's phone site, as an iPhone sees it. Every iPhone browser runs on WebKit, including
+// Orion, which installs extensions from the Chrome Web Store. Reddit sends phones a
+// different layout, where a "Get the app" sheet fades out the page and freezes scrolling.
+const phoneCtx = await browser.newContext({ ...devices['iPhone 15'] });
+if (withExtension) await phoneCtx.addInitScript({ content: fs.readFileSync(scriptPath, 'utf8') });
+const phone = await phoneCtx.newPage();
+phone.on('pageerror', (e) => pageErrors.push(String(e).slice(0, 200)));
+let phoneBatches = 0;
+phone.on('response', (r) => {
+  if (/svc\/shreddit\/(community-more-posts|feeds)/.test(r.url()) && r.status() === 200) phoneBatches++;
+});
+const phoneSnapshot = () =>
+  phone.evaluate(() => ({
+    // The sheet's faded backdrop covers the whole screen, so a tap in the upper part of the
+    // page lands on the sheet while it is open.
+    tapHitsSheet: !!document.elementFromPoint(innerWidth / 2, innerHeight / 4)?.closest('.configured-xpromo'),
+    lock: document.body.classList.contains('rpl-scroll-lock'),
+    scrollOff: getComputedStyle(document.body).overflowY === 'hidden' || getComputedStyle(document.documentElement).overflowY === 'hidden',
+    posts: document.querySelectorAll('shreddit-post').length,
+    comments: document.querySelectorAll('shreddit-comment').length,
+    y: Math.round(scrollY),
+  }));
+const appSheetVisible = () => phone.getByText(/best of Reddit in the app/i).first().isVisible().catch(() => false);
+
+async function phoneFeedCheck(url, label) {
+  if (!(await open(url, phone))) {
+    console.log(`SKIP  ${label}: Reddit kept showing its bot check`);
+    return;
+  }
+  await phone.waitForTimeout(12000); // the sheet opens within about a second; wait well past it
+  const s0 = await phoneSnapshot();
+  const sheet = await appSheetVisible();
+  await phone.screenshot({ path: `${shotDir}/${tag}-${label}-loaded.png` });
+  check(`${label}: "Get the app" sheet not visible`, !sheet && !s0.tapHitsSheet, `text visible=${sheet}, ${JSON.stringify(s0)}`);
+  check(`${label}: scrolling not frozen`, !s0.scrollOff, `lock class=${s0.lock}, scrolling switched off=${s0.scrollOff}`);
+  // Playwright can't send swipe gestures to mobile WebKit, so scroll the page directly; the
+  // check above confirms the page itself allows scrolling.
+  const h0 = await phone.evaluate(() => document.documentElement.scrollHeight);
+  const batchesBefore = phoneBatches;
+  for (let i = 0; i < 30; i++) {
+    await phone.evaluate(() => window.scrollBy(0, 1200));
+    await phone.waitForTimeout(1000);
+  }
+  const s1 = await phoneSnapshot();
+  const h1 = await phone.evaluate(() => document.documentElement.scrollHeight);
+  check(`${label}: feed keeps loading batch after batch`, phoneBatches - batchesBefore >= 2 && h1 > h0 * 2, `${phoneBatches - batchesBefore} more batches while scrolling, page ${h0}px -> ${h1}px tall, ${s1.posts} posts on page`);
+  await phone.screenshot({ path: `${shotDir}/${tag}-${label}-scrolled.png` });
+}
+
+await phoneFeedCheck('https://www.reddit.com/r/AskReddit/', 'phone-askreddit');
+await phoneFeedCheck('https://www.reddit.com/', 'phone-home');
+
+// Tapping into a post on the phone: the sheet shows there too, over the comments.
+if (await open('https://www.reddit.com/r/AskReddit/', phone)) {
+  await phone.waitForTimeout(4000);
+  await phone.locator('a[slot="full-post-link"]').first().tap({ timeout: 15000 }).catch((e) => console.log('  post tap failed:', String(e).split('\n')[0]));
+  await phone.waitForURL((u) => u.pathname.includes('/comments/'), { timeout: 30000 }).catch(() => {});
+  check('phone: tapping a post opens it', phone.url().includes('/comments/'), phone.url());
+  await phone.waitForTimeout(10000);
+  const s = await phoneSnapshot();
+  const sheet = await appSheetVisible();
+  await phone.screenshot({ path: `${shotDir}/${tag}-phone-post.png` });
+  check('phone post page: "Get the app" sheet not visible', !sheet && !s.tapHitsSheet, `text visible=${sheet}, ${JSON.stringify(s)}`);
+  check('phone post page: scrolling not frozen', !s.scrollOff, `lock class=${s.lock}, scrolling switched off=${s.scrollOff}`);
+  check('phone post page: comments shown', s.comments > 0, `${s.comments} comments`);
 }
 
 if (pageErrors.length) console.log('page errors seen:', JSON.stringify(pageErrors.slice(0, 5), null, 2));

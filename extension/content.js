@@ -1,10 +1,10 @@
 // Scroll Free for Reddit
 //
 // Runs on reddit.com pages (see manifest.json). When you're logged out, Reddit
-// covers the page with a "join" box a few seconds after it loads, freezes
-// scrolling, and stops loading posts after the first 3. This removes the box,
-// keeps the page scrolling, and keeps the feed loading. It reads nothing about
-// you and sends nothing anywhere.
+// covers the page with a "join" box a few seconds after it loads (on phones, a
+// "Get the app" sheet instead), freezes scrolling, and stops loading posts after
+// the first 3. This removes the box, keeps the page scrolling, and keeps the
+// feed loading. It reads nothing about you and sends nothing anywhere.
 
 (() => {
   'use strict';
@@ -58,7 +58,36 @@
   };
 
   // ---------------------------------------------------------------------------
-  // 3. Keep feeds loading.
+  // 3. Remove the "Get the app" sheet on Reddit's phone site.
+  //
+  // Phones get a different layout (for example the Orion browser on iPhone),
+  // where logged-out visitors see a "Get the best of Reddit in the app" sheet
+  // that fades out the page and freezes scrolling. Reddit adds it as a
+  // "configured-xpromo-modal" element whose tracking data names its "max_login"
+  // prompt. Removing that element closes the sheet and lets the page scroll
+  // again, even if the sheet has already opened.
+  //
+  // Reddit uses the same element for its other app prompts, and the tracking
+  // data's prompt type says whether the page is adult content ("sfw" or
+  // "nsfw"). Only the login prompt on ordinary pages is removed; adult-content
+  // prompts, and anything this doesn't recognise, are left as Reddit made them.
+  // ---------------------------------------------------------------------------
+  const appPrompts = document.getElementsByTagName('configured-xpromo-modal'); // live list, cheap to check
+  const isLoginPrompt = (prompt) => {
+    try {
+      const tracking = JSON.parse(prompt.getAttribute('data-faceplate-tracking-context'));
+      return tracking.experience.name.startsWith('max_login') && !tracking.action_info.type.includes('nsfw');
+    } catch {
+      return false;
+    }
+  };
+  const removeAppPrompt = () => {
+    if (!appPrompts.length) return;
+    for (const prompt of [...appPrompts]) if (isLoginPrompt(prompt)) prompt.remove();
+  };
+
+  // ---------------------------------------------------------------------------
+  // 4. Keep feeds loading.
   //
   // Reddit's feed ends with a hidden marker that tells it where to fetch the next
   // batch of posts as you scroll. For logged-out visitors Reddit leaves that
@@ -104,8 +133,10 @@
   };
   new MutationObserver(() => {
     removeSignupBox();
+    removeAppPrompt();
     scheduleFeedCheck();
   }).observe(document, { childList: true, subtree: true });
   window.addEventListener('scroll', scheduleFeedCheck, { passive: true });
   removeSignupBox();
+  removeAppPrompt();
 })();
