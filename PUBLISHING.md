@@ -12,12 +12,14 @@ The website's install buttons read "Coming soon" until each store's link is adde
 
 ## Chrome Web Store (also covers Edge, Brave and Arc)
 
-Submitted for review on 13 November 2026. Item ID `lcfflgjbnlnopeiflekfggclpnocojpo`; listing URL: https://chromewebstore.google.com/detail/scroll-free-for-reddit/lcfflgjbnlnopeiflekfggclpnocojpo
+Version 1.0.0 is live. Item ID `lcfflgjbnlnopeiflekfggclpnocojpo`; listing URL: https://chromewebstore.google.com/detail/scroll-free-for-reddit/lcfflgjbnlnopeiflekfggclpnocojpo
 
-The website's **Add to Chrome** button already links to this URL. Until approval, Google shows an empty placeholder page.
+The website's **Add to Chrome** button links to this URL. For updates to the existing listing, follow [When Reddit changes its page](#when-reddit-changes-its-page).
+
+For a first submission:
 
 1. **You:** go to https://chrome.google.com/webstore/devconsole and sign in with the Google account that should own the listing. Pay the one-time US$5 registration fee, set the publisher name to **Wilson Technologies**, and verify the contact email.
-2. **You:** click **New item** and upload `dist/scroll-free-for-reddit-1.0.0.zip` from this folder.
+2. **You:** click **New item** and upload the package listed in [store/chrome-web-store.md](store/chrome-web-store.md#package).
 3. **You:** fill in each tab by pasting from `store/chrome-web-store.md`. It lists every field in order, including which image files to upload.
 4. **You:** answer the EU "trader" question, which is your call. Declaring yourself a trader means the store publicly shows a business address, phone number and email to people in the EU. Declaring non-trader shows none of that, but states that publishing it isn't part of a business. Since this is free and published by Wilson Technologies, either can be argued.
 5. **You:** click **Submit for review**. Google usually reviews within a few days and emails the result.
@@ -39,6 +41,8 @@ Reddit changes its site from time to time. If the box comes back, the fix is a s
 
 To send a new version to the Chrome Web Store:
 
-1. **Claude:** raises the version number in `extension/manifest.json` and `package.json` (the store only accepts a higher number than the one it has), runs the tests, and builds `dist/scroll-free-for-reddit-<version>.zip` with `npm run package:chrome`.
+1. **Claude:** raises the version number in `extension/manifest.json` and `package.json`, refreshes `package-lock.json` to match (the store only accepts a higher number than the one it has), runs the tests, and builds the upload package with `npm run package:chrome`. See [store/chrome-web-store.md](store/chrome-web-store.md#package) for the current package filename.
 2. **You:** in the developer dashboard (https://chrome.google.com/webstore/devconsole), open Scroll Free for Reddit, choose **Package** on the left, click **Upload new package** and pick that zip. Then click **Submit for review**. The listing text and images carry over, so nothing else needs filling in.
 3. Once Google approves it, Chrome installs the new version for everyone who already has the extension, usually within a few hours.
+
+For the 1.1.0 phone fix, keep `docs/support.html` unchanged until Google approves the update. The public website deploys on merge; after approval, update its phone support answer to match [README.md](README.md#how-it-works).
