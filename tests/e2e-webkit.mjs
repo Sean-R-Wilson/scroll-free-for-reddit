@@ -160,6 +160,8 @@ if (await open('https://www.reddit.com/r/AskReddit/')) {
     .catch(() => false);
   await page.screenshot({ path: `${shotDir}/${tag}-login.png` });
   check('Log In button still opens the login box', loginShown && loginVisible, `visible=${loginVisible}`);
+} else {
+  console.log('SKIP  post page and login: Reddit kept showing its bot check');
 }
 
 // Reddit's phone site, as an iPhone sees it. Every iPhone browser runs on WebKit, including
@@ -227,6 +229,8 @@ if (await open('https://www.reddit.com/r/AskReddit/', phone)) {
   check('phone post page: "Get the app" sheet not visible', !sheet && !s.tapHitsSheet, `text visible=${sheet}, ${JSON.stringify(s)}`);
   check('phone post page: scrolling not frozen', !s.scrollOff, `lock class=${s.lock}, scrolling switched off=${s.scrollOff}`);
   check('phone post page: comments shown', s.comments > 0, `${s.comments} comments`);
+} else {
+  console.log('SKIP  phone post page: Reddit kept showing its bot check');
 }
 
 if (pageErrors.length) console.log('page errors seen:', JSON.stringify(pageErrors.slice(0, 5), null, 2));
