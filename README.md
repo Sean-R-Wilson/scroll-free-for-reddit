@@ -40,4 +40,6 @@ Phones get Reddit's phone layout instead, with a "Get the best of Reddit in the 
 
 For logged-out visitors, Reddit also leaves out the marker at the end of the feed that tells it where to fetch the next posts (`faceplate-partial slot="load-after"`). When you scroll near the end of a feed, the extension adds that marker back, pointing after the last post, and Reddit's own code loads the next batch.
 
+Some visitors, seen on iPhone in Orion, also get feeds marked `omit-load-after`, which tells Reddit's feed code never to load that marker, so the feed stops at 3 posts even with the marker back. The feed reads the setting once, when it starts, so the extension removes it as soon as the feed arrives. If the feed has already started, the extension takes it off the page and puts it straight back, which starts it again without the setting. Reddit doesn't send this setting to the test browsers, so the WebKit test adds it to a phone feed itself and checks the feed still loads.
+
 If Reddit renames these, the extension stops working until it's updated. The tests catch that.

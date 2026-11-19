@@ -188,11 +188,30 @@ const phoneSnapshot = () =>
   }));
 const appSheetVisible = () => phone.getByText(/best of Reddit in the app/i).first().isVisible().catch(() => false);
 
-async function phoneFeedCheck(url, label) {
-  if (!(await open(url, phone))) {
+// Some iPhones (seen in Orion) get feeds marked "omit-load-after", which tells Reddit's feed
+// code never to load more posts. Reddit doesn't send it to these test browsers, so this
+// adds it to the feed in every page Reddit sends, as those phones receive it.
+let feedsMarked = 0;
+const markFeedsOmitLoadAfter = (route) =>
+  route.fetch().then(async (res) => {
+    if (!/html/.test(res.headers()['content-type'] || '')) return route.fulfill({ response: res });
+    const body = (await res.text()).replace(/<shreddit-feed(?=[\s>])(?![^>]*omit-load-after)/g, () => {
+      feedsMarked++;
+      return '<shreddit-feed omit-load-after';
+    });
+    return route.fulfill({ response: res, body });
+  });
+
+async function phoneFeedCheck(url, label, { omitLoadAfter = false } = {}) {
+  if (omitLoadAfter) await phone.route((u) => u.hostname === 'www.reddit.com', markFeedsOmitLoadAfter);
+  const markedBefore = feedsMarked;
+  const opened = await open(url, phone);
+  if (omitLoadAfter) await phone.unrouteAll({ behavior: 'ignoreErrors' });
+  if (!opened) {
     console.log(`SKIP  ${label}: Reddit kept showing its bot check`);
     return;
   }
+  if (omitLoadAfter) check(`${label}: feed arrived marked omit-load-after`, feedsMarked > markedBefore, `${feedsMarked - markedBefore} feeds marked`);
   await phone.waitForTimeout(12000); // the sheet opens within about a second; wait well past it
   const s0 = await phoneSnapshot();
   const sheet = await appSheetVisible();
@@ -209,12 +228,15 @@ async function phoneFeedCheck(url, label) {
   }
   const s1 = await phoneSnapshot();
   const h1 = await phone.evaluate(() => document.documentElement.scrollHeight);
-  check(`${label}: feed keeps loading batch after batch`, phoneBatches - batchesBefore >= 2 && h1 > h0 * 2, `${phoneBatches - batchesBefore} more batches while scrolling, page ${h0}px -> ${h1}px tall, ${s1.posts} posts on page`);
+  // Each batch is several screens of posts, so this much scrolling brings at least 3. A feed
+  // that stalls after one or two fails.
+  check(`${label}: feed keeps loading batch after batch`, phoneBatches - batchesBefore >= 3 && h1 > h0 * 2, `${phoneBatches - batchesBefore} more batches while scrolling, page ${h0}px -> ${h1}px tall, ${s1.posts} posts on page`);
   await phone.screenshot({ path: `${shotDir}/${tag}-${label}-scrolled.png` });
 }
 
 await phoneFeedCheck('https://www.reddit.com/r/AskReddit/', 'phone-askreddit');
 await phoneFeedCheck('https://www.reddit.com/', 'phone-home');
+await phoneFeedCheck('https://www.reddit.com/r/popular/', 'phone-popular-omit-load-after', { omitLoadAfter: true });
 
 // Tapping into a post on the phone: the sheet shows there too, over the comments.
 if (await open('https://www.reddit.com/r/AskReddit/', phone)) {

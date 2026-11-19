@@ -99,7 +99,23 @@
   // It waits until you are near the end so the feed has finished arriving, and it
   // never adds a second marker after the same post, so it stops cleanly when a
   // feed genuinely runs out.
+  //
+  // Some visitors (seen on iPhone in Orion) also get feeds marked
+  // "omit-load-after", which tells Reddit's feed code never to load the marker at
+  // all. The feed reads that once, when it starts, so it is switched off as soon
+  // as the feed arrives. A feed that has already started (Reddit loads some pages
+  // in place, after its code is running) is taken off the page and put straight
+  // back, which starts it again without the setting.
   // ---------------------------------------------------------------------------
+  const feeds = document.getElementsByTagName('shreddit-feed'); // live list, cheap to check
+  const allowMorePosts = () => {
+    for (const feed of feeds) {
+      if (!feed.hasAttribute('omit-load-after')) continue;
+      feed.removeAttribute('omit-load-after');
+      if (feed.matches(':defined')) feed.parentNode.insertBefore(feed, feed.nextSibling);
+    }
+  };
+
   const extendedAfter = new WeakMap(); // feed -> id of the post we last added a marker after
   const restoreFeedLoading = () => {
     for (const feed of document.querySelectorAll('shreddit-feed[reload-url]')) {
@@ -134,9 +150,11 @@
   new MutationObserver(() => {
     removeSignupBox();
     removeAppPrompt();
+    allowMorePosts();
     scheduleFeedCheck();
   }).observe(document, { childList: true, subtree: true });
   window.addEventListener('scroll', scheduleFeedCheck, { passive: true });
   removeSignupBox();
   removeAppPrompt();
+  allowMorePosts();
 })();
