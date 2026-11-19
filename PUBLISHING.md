@@ -12,7 +12,7 @@ The website's install buttons read "Coming soon" until each store's link is adde
 
 ## Chrome Web Store (also covers Edge, Brave and Arc)
 
-Version 1.0.0 is live. Item ID `lcfflgjbnlnopeiflekfggclpnocojpo`; listing URL: https://chromewebstore.google.com/detail/scroll-free-for-reddit/lcfflgjbnlnopeiflekfggclpnocojpo
+The listing is live. Item ID `lcfflgjbnlnopeiflekfggclpnocojpo`; listing URL: https://chromewebstore.google.com/detail/scroll-free-for-reddit/lcfflgjbnlnopeiflekfggclpnocojpo
 
 The website's **Add to Chrome** button links to this URL. For updates to the existing listing, follow [When Reddit changes its page](#when-reddit-changes-its-page).
 
@@ -45,4 +45,4 @@ To send a new version to the Chrome Web Store:
 2. **You:** in the developer dashboard (https://chrome.google.com/webstore/devconsole), open Scroll Free for Reddit, choose **Package** on the left, click **Upload new package** and pick that zip. Then click **Submit for review**. The listing text and images carry over, so nothing else needs filling in.
 3. Once Google approves it, Chrome installs the new version for everyone who already has the extension, usually within a few hours.
 
-For the 1.1.0 phone fix, keep `docs/support.html` unchanged until Google approves the update. The public website deploys on merge; after approval, update its phone support answer to match [README.md](README.md#how-it-works).
+For the Orion feed-loading fix, keep `docs/support.html` unchanged until Google approves the update. The public website deploys on merge; after approval, update its phone support answer to match [README.md](README.md#how-it-works).
