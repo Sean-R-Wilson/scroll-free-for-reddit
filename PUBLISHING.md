@@ -44,5 +44,3 @@ To send a new version to the Chrome Web Store:
 1. **Claude:** raises the version number in `extension/manifest.json` and `package.json`, refreshes `package-lock.json` to match (the store only accepts a higher number than the one it has), runs the tests, and builds the upload package with `npm run package:chrome`. See [store/chrome-web-store.md](store/chrome-web-store.md#package) for the current package filename.
 2. **You:** in the developer dashboard (https://chrome.google.com/webstore/devconsole), open Scroll Free for Reddit, choose **Package** on the left, click **Upload new package** and pick that zip. Then click **Submit for review**. The listing text and images carry over, so nothing else needs filling in.
 3. Once Google approves it, Chrome installs the new version for everyone who already has the extension, usually within a few hours.
-
-For the Orion feed-loading fix, keep `docs/support.html` unchanged until Google approves the update. The public website deploys on merge; after approval, update its phone support answer to match [README.md](README.md#how-it-works).
